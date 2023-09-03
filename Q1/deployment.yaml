@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    App: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      App: myapp
+  template:
+    metadata:
+      labels:
+        App: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:latest
+        command: ["./start.sh"]
+        env:
+        - name: DATABASE_URL
+          value: jdbc:postgresql://db:5432/mydb
+        - name: LOG_LEVEL
+          value: info
+        ports:
+        - containerPort: 8080
